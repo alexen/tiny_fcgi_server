@@ -2,6 +2,7 @@
 /// @brief
 /// @copyright Copyright (c) InfoTeCS. All Rights Reserved.
 
+#include <array>
 #include <stdexcept>
 #include <iostream>
 
@@ -19,8 +20,27 @@
      THROW_EXCEPTION_IF( cond, msg, std::runtime_error )
 
 
-void handle( std::istream& request, std::ostream& response )
+void copyByLine( std::istream& is, std::ostream& os )
 {
+     std::string line;
+     while( std::getline( is, line ) )
+     {
+          os << "LINE: " << line << '\n';
+     }
+}
+
+
+void copyByIterators( std::istream& is, std::ostream& os )
+{
+     std::copy( std::istreambuf_iterator< char >{ is }, {},
+          std::ostreambuf_iterator< char >{ os } );
+}
+
+
+void handle( std::istream& is, std::ostream& response )
+{
+     copyByIterators( is, std::cout );
+     response << '\n';
 }
 
 
@@ -41,10 +61,16 @@ int main( int argc, char** argv )
                , "FCGX request initialization error"
                );
 
+          std::array< char, 4096 > buffer;
+
           while( FCGX_Accept_r( &request ) == 0 )
           {
-               fcgi_istream is{ request.in };
-               fcgi_ostream os{ request.out };
+               std::cout << "Request accepted!\n";
+               fcgi_streambuf in{ request.in, buffer.data(), buffer.size() };
+               fcgi_streambuf out{ request.out };
+
+               std::istream is{ &in };
+               std::ostream os{ &out };
 
                handle( is, os );
           }
