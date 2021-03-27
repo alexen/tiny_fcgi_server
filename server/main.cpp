@@ -11,12 +11,19 @@
 #include <fcgiapp.h>
 
 
+#define THROW_EXCEPTION_IF( cond, msg, exc ) \
+     do { if( !(cond) ){ BOOST_THROW_EXCEPTION( exc{ msg } ); } } while( false )
+
+#define THROW_RUNTIME_ERROR_IF( cond, msg ) \
+     THROW_EXCEPTION_IF( cond, msg, std::runtime_error )
+
+
 int main( int argc, char** argv )
 {
      boost::ignore_unused( argc, argv );
      try
      {
-          FCGX_Init();
+          THROW_RUNTIME_ERROR_IF( FCGX_Init() != 0, "FCGX initialization error" );
      }
      catch( const std::exception& e )
      {
