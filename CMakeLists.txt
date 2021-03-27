@@ -6,3 +6,7 @@ add_definitions(-std=c++17)
 add_definitions(-Wall -Werror -Wpedantinc -Wextra)
 
 set(CMAKE_CXX_FLAGS_DEBUG "-ggdb3 -O0 -fno-inline")
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+find_package(Fcgi REQUIRED)
