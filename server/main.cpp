@@ -13,7 +13,7 @@
 
 
 #define THROW_EXCEPTION_IF( cond, msg, exc ) \
-     do { if( !(cond) ){ BOOST_THROW_EXCEPTION( exc{ msg } ); } } while( false )
+     do { if( cond ){ BOOST_THROW_EXCEPTION( exc{ msg } ); } } while( false )
 
 #define THROW_RUNTIME_ERROR_IF( cond, msg ) \
      THROW_EXCEPTION_IF( cond, msg, std::runtime_error )
