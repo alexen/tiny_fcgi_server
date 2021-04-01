@@ -15,13 +15,6 @@
 #include <fcgio.h>
 
 
-#define THROW_EXCEPTION_IF( cond, msg, exc ) \
-     do { if( cond ){ BOOST_THROW_EXCEPTION( exc{ msg } ); } } while( false )
-
-#define THROW_RUNTIME_ERROR_IF( cond, msg ) \
-     THROW_EXCEPTION_IF( cond, msg, std::runtime_error )
-
-
 struct Exception : std::runtime_error, virtual boost::exception
 {
      Exception( const std::string& what ) : std::runtime_error{ what } {}
@@ -34,11 +27,13 @@ class Environment
 {
 public:
      struct Error : Exception {
-          Error( const std::string& what )
-               : Exception{ what } {} };
+          Error( const std::string& what ) : Exception{ what } {}
+     };
      struct NoKeyFound : Error{
-          NoKeyFound( std::string_view key )
-               : Error{ "no key " + std::string{ key } + " found" } {} };
+          NoKeyFound( std::string_view key ) : Error{
+               "no key " + std::string{ key } + " found"
+          } {}
+     };
 
      using KeyValue = std::unordered_map< std::string_view, std::string_view >;
 
@@ -60,12 +55,11 @@ public:
      std::string_view get( std::string_view key ) const
      {
           const auto found = env_.find( key );
-          if( found != env_.end() )
+          if( found == env_.end() )
           {
-               return found->second;
+               BOOST_THROW_EXCEPTION( NoKeyFound{ key } );
           }
-          BOOST_THROW_EXCEPTION( NoKeyFound{ key } );
-          return {};
+          return found->second;
      }
 
 private:
@@ -92,6 +86,10 @@ class Server
 {
      static constexpr auto RequestBufferSize = 4096u;
 public:
+     struct Error : Exception {
+          Error( const std::string& what ) : Exception{ what } {}
+     };
+
      Server( RequestHandler& handler );
 
      void run();
@@ -104,7 +102,10 @@ private:
 Server::Server( RequestHandler& handler )
      : handler_{ handler }
 {
-     THROW_RUNTIME_ERROR_IF( FCGX_Init() != 0, "FCGX initialization error" );
+     if( FCGX_Init() != 0 )
+     {
+          BOOST_THROW_EXCEPTION( Server::Error{ "FCGI initialization error" } );
+     }
 }
 
 
@@ -123,10 +124,10 @@ void Server::run()
      static constexpr auto noSocket = 0;
      static constexpr auto noFlags = 0;
 
-     THROW_RUNTIME_ERROR_IF(
-          FCGX_InitRequest( &request, noSocket, noFlags ) != 0
-          , "FCGX request initialization error"
-          );
+     if( FCGX_InitRequest( &request, noSocket, noFlags ) != 0 )
+     {
+          BOOST_THROW_EXCEPTION( Server::Error{ "FCGI request initialization error" } );
+     }
 
      std::array< char, RequestBufferSize > buffer;
 
