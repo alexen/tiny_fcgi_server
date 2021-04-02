@@ -14,8 +14,13 @@ namespace fcgi {
 
 
 Environment::Environment( const FCGX_Request& request )
+     : Environment{ request.envp }
+{}
+
+
+Environment::Environment( char** env )
 {
-     parse( request.envp );
+     parse( env );
 }
 
 

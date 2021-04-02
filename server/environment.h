@@ -33,6 +33,7 @@ public:
      using KeyValue = std::unordered_map< std::string_view, std::string_view >;
 
      explicit Environment( const FCGX_Request& request );
+     explicit Environment( char** env );
 
      KeyValue::const_iterator begin() const noexcept;
      KeyValue::const_iterator end() const noexcept;
