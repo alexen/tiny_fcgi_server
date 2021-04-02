@@ -18,7 +18,7 @@ Environment::Environment( const FCGX_Request& request )
 {}
 
 
-Environment::Environment( char** env )
+Environment::Environment( const char* const env[] )
 {
      parse( env );
 }
@@ -47,7 +47,7 @@ std::string_view Environment::get( std::string_view key ) const
 }
 
 
-void Environment::parse( char** envp )
+void Environment::parse( const char* const envp[] )
 {
      for( auto curr = envp; *curr; ++curr )
      {

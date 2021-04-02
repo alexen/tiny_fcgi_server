@@ -33,7 +33,7 @@ public:
      using KeyValue = std::unordered_map< std::string_view, std::string_view >;
 
      explicit Environment( const FCGX_Request& request );
-     explicit Environment( char** env );
+     explicit Environment( const char* const env[] );
 
      KeyValue::const_iterator begin() const noexcept;
      KeyValue::const_iterator end() const noexcept;
@@ -41,7 +41,7 @@ public:
      std::string_view get( std::string_view key ) const;
 
 private:
-     void parse( char** envp );
+     void parse( const char* const envp[] );
 
      KeyValue env_;
 };
