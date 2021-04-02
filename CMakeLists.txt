@@ -15,6 +15,8 @@ find_package(Fcgi REQUIRED)
 find_package(Boost REQUIRED)
 include_directories(${Boost_INCLUDE_DIR})
 
+enable_testing()
+
 add_subdirectory(server)
 
 add_executable(${PROJECT_NAME} main.cpp)
