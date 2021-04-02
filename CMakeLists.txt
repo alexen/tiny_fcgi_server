@@ -5,6 +5,8 @@ project(tiny_fcgi_server)
 add_definitions(-std=c++17)
 add_definitions(-Wall -Werror -Wpedantic -Wextra)
 
+option(BUILD_SHARED_LIBS "Enable shared libs building by default" ON)
+
 include_directories(${CMAKE_SOURCE_DIR})
 
 set(CMAKE_CXX_FLAGS_DEBUG "-ggdb3 -O0 -fno-inline")
