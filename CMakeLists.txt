@@ -14,8 +14,7 @@ set(CMAKE_CXX_FLAGS_DEBUG "-ggdb3 -O0 -fno-inline")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 find_package(Fcgi REQUIRED)
-find_package(Boost REQUIRED)
-include_directories(${Boost_INCLUDE_DIR})
+include_directories(SYSTEM ${Fcgi_INCLUDE_DIRS})
 
 enable_testing()
 
