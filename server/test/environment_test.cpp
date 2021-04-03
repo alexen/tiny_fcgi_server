@@ -63,4 +63,17 @@ BOOST_AUTO_TEST_CASE( CheckEnvironmentKeyPresence )
      BOOST_CHECK( not env.has( "http_request_verb" ) );
      BOOST_CHECK( not env.has( "NO_SUCH_KEY" ) );
 }
+BOOST_AUTO_TEST_CASE( CheckNoKeyFoundException )
+{
+     const char* const params[] = {
+          "HTTP_REQUEST_VERB=GET",
+          "HTTP_VERSION=1.0",
+          "HTTP_CONTENT_TYPE=application/json",
+          nullptr
+     };
+     using alexen::server::fcgi::Environment;
+     Environment env{ params };
+     BOOST_CHECK_THROW( env.get( "NON_EXISTENT_KEY" ), Environment::Error );
+     BOOST_CHECK_THROW( env.get( "NON_EXISTENT_KEY" ), Environment::NoKeyFound );
+}
 BOOST_AUTO_TEST_SUITE_END()
