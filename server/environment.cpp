@@ -47,6 +47,12 @@ std::string_view Environment::get( std::string_view key ) const
 }
 
 
+bool Environment::has( std::string_view key ) const noexcept
+{
+     return env_.count( key ) != 0u;
+}
+
+
 void Environment::parse( const char* const envp[] )
 {
      for( auto curr = envp; *curr; ++curr )

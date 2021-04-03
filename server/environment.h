@@ -39,6 +39,7 @@ public:
      KeyValue::const_iterator end() const noexcept;
 
      std::string_view get( std::string_view key ) const;
+     bool has( std::string_view key ) const noexcept;
 
 private:
      void parse( const char* const envp[] );
