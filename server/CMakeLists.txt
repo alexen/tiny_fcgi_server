@@ -11,6 +11,7 @@ target_link_libraries(${PROJECT_NAME}
 
 if(BUILD_TESTING)
      set(UNIT_TEST_NAME ${PROJECT_NAME}-test)
+     add_definitions(-DBOOST_TEST_MAIN -DBOOST_TEST_DYN_LINK)
      add_executable(${UNIT_TEST_NAME}
           test/environment_test.cpp
           )
