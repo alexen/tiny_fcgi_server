@@ -52,10 +52,11 @@ void Environment::parse( const char* const envp[] )
      for( auto curr = envp; *curr; ++curr )
      {
           std::string_view kv{ *curr };
-          const auto idx = kv.find( '=' );
-          if( idx != std::string_view::npos )
+          const auto eq = kv.find( '=' );
+          auto& valueRef = env_[ kv.substr( 0u, eq ) ];
+          if( eq != std::string_view::npos )
           {
-               env_.insert({ kv.substr( 0u, idx ), kv.substr( idx + 1u ) });
+               valueRef = kv.substr( eq + 1u );
           }
      }
 }
