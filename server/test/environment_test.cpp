@@ -30,4 +30,18 @@ BOOST_AUTO_TEST_CASE( ParseValidFcgiEnvironment )
      BOOST_CHECK_EQUAL( env.get( "REQUEST_URI" ), "/fcgi/service/name" );
      BOOST_CHECK_EQUAL( env.get( "REQUEST_METHOD" ), "method" );
 }
+BOOST_AUTO_TEST_CASE( ParseFcgiEnvironmentWithEmptyValues )
+{
+     const char* const params[] = {
+          "KEY_HAS_EQUAL_SIGN=",
+          "KEY_HAS_NO_EQUAL_SIGN",
+          nullptr
+     };
+
+     using alexen::server::fcgi::Environment;
+
+     Environment env{ params };
+     BOOST_CHECK_EQUAL( env.get( "KEY_HAS_EQUAL_SIGN" ), "" );
+     BOOST_CHECK_EQUAL( env.get( "KEY_HAS_NO_EQUAL_SIGN" ), "" );
+}
 BOOST_AUTO_TEST_SUITE_END()
