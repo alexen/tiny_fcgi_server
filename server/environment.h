@@ -24,10 +24,10 @@ public:
      {
           Error( const std::string& what ) : Exception{ what } {}
      };
-     struct NoKeyFound : Error
+     struct KeyNotFound : Error
      {
-          NoKeyFound( std::string_view key )
-               : Error{ "no key " + std::string{ key } + " found" } {}
+          KeyNotFound( std::string_view key )
+               : Error{ "'" + std::string{ key } + "' not found" } {}
      };
 
      using KeyValue = std::unordered_map< std::string_view, std::string_view >;

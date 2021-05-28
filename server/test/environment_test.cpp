@@ -74,6 +74,6 @@ BOOST_AUTO_TEST_CASE( CheckNoKeyFoundException )
      using alexen::server::fcgi::Environment;
      Environment env{ params };
      BOOST_CHECK_THROW( env.get( "NON_EXISTENT_KEY" ), Environment::Error );
-     BOOST_CHECK_THROW( env.get( "NON_EXISTENT_KEY" ), Environment::NoKeyFound );
+     BOOST_CHECK_THROW( env.get( "NON_EXISTENT_KEY" ), Environment::KeyNotFound );
 }
 BOOST_AUTO_TEST_SUITE_END()

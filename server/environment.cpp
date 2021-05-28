@@ -41,7 +41,7 @@ std::string_view Environment::get( std::string_view key ) const
      const auto found = env_.find( key );
      if( found == env_.end() )
      {
-          BOOST_THROW_EXCEPTION( NoKeyFound{ key } );
+          BOOST_THROW_EXCEPTION( KeyNotFound{ key } );
      }
      return found->second;
 }
