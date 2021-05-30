@@ -26,6 +26,7 @@ include(CTest)
 enable_testing()
 
 add_subdirectory(server)
+add_subdirectory(tools)
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} server)
