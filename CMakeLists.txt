@@ -19,6 +19,9 @@ include_directories(SYSTEM ${Fcgi_INCLUDE_DIRS})
 find_package(Boost REQUIRED unit_test_framework)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
+find_package(CURL REQUIRED)
+include_directories(SYSTEM ${CURL_INCLUDE_DIRS})
+
 include(CTest)
 enable_testing()
 
