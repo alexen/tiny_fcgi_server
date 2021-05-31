@@ -23,7 +23,7 @@ find_package(CURL REQUIRED)
 include_directories(SYSTEM ${CURL_INCLUDE_DIRS})
 
 find_package(RapidJson REQUIRED)
-include_directories(${RapidJson_INCLUDE_DIR})
+include_directories(SYSTEM ${RapidJson_INCLUDE_DIR})
 
 include(CTest)
 enable_testing()
