@@ -19,10 +19,14 @@ include_directories(SYSTEM ${Fcgi_INCLUDE_DIRS})
 find_package(Boost REQUIRED unit_test_framework)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
+find_package(CURL REQUIRED)
+include_directories(SYSTEM ${CURL_INCLUDE_DIRS})
+
 include(CTest)
 enable_testing()
 
 add_subdirectory(server)
+add_subdirectory(tools)
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} server)
