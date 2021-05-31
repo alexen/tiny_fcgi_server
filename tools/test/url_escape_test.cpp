@@ -26,4 +26,12 @@ BOOST_AUTO_TEST_CASE( TestUnescapeFunction )
      BOOST_TEST( unescape( "User%20Name%3DSurname%20Name%26Birth%20Date%3D1969-11-07%26Gender%3DMALE" )
           == "User Name=Surname Name&Birth Date=1969-11-07&Gender=MALE" );
 }
+BOOST_AUTO_TEST_CASE( TestUsingEmptyString )
+{
+     using alexen::server::tools::escape;
+     using alexen::server::tools::unescape;
+
+     BOOST_TEST( escape( "" ) == "" );
+     BOOST_TEST( unescape( "" ) == "" );
+}
 BOOST_AUTO_TEST_SUITE_END()
