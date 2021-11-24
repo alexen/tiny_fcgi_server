@@ -1,4 +1,0 @@
-language: cpp
-install: cmake make gcc g++
-script: cmake . && make -j $(nproc) && make test
-compiler: gcc
